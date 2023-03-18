@@ -8,6 +8,7 @@ const getButtonTextColor = type =>
 const Button = ({label, getColor, type, isEqual, onPress}) => {
   return (
     <TouchableOpacity
+      activeOpacity={8}
       onPress={() => onPress(label)}
       style={{
         width: isEqual ? 70 * 2 + 14 : 70,

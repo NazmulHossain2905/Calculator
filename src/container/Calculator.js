@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, Switch} from 'react-native';
+import {View, Text, StyleSheet, ToastAndroid} from 'react-native';
 import Button from '../components/Button';
 import ToggleTheme from '../components/ToggleTheme';
 import {theme} from '../styles/theme';
@@ -18,8 +18,26 @@ const Calculator = () => {
         calculateResult?.substring(0, calculateResult.length - 1),
       );
     } else if (label === '=') {
-      const result = Number(eval(calculateResult).toFixed(9)).toString();
-      setCalculateResult(result);
+      if (
+        ['+', '-', '*', '/', '%'].includes(
+          calculateResult.charAt(calculateResult.length - 1),
+        )
+      ) {
+        const removeLastOperator = calculateResult?.substring(
+          0,
+          calculateResult?.length - 1,
+        );
+        const result = Number(eval(removeLastOperator).toFixed(9)).toString();
+        setCalculateResult(result);
+      } else {
+        const result = Number(eval(calculateResult).toFixed(9)).toString();
+        setCalculateResult(result);
+      }
+    } else if (calculateResult?.length >= 44) {
+      ToastAndroid.show(
+        'You can calculate maximum 44 digit, to continue AC - (All Clear) button.',
+        ToastAndroid.BOTTOM,
+      );
     } else {
       setCalculateResult(calculateResult + label);
     }
